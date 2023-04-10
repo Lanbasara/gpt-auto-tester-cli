@@ -1,0 +1,22 @@
+{
+  "name": "auto-test-cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "my-compile": "my-compile ./src/*.js --out-dir dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.3.5",
+    "chokidar": "^3.5.3",
+    "commander": "^10.0.0",
+    "cosmiconfig": "^8.1.3",
+    "glob": "^10.0.0"
+  },
+  "bin": {
+    "my-compile": "./index.js"
+  }
+}

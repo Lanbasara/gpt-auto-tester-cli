@@ -60,13 +60,6 @@ function compile(fileNames) {
   fileNames.forEach(async (filename) => {
     const fileContent = await fsPromises.readFile(filename, "utf-8");
     const baseFileName = path.basename(filename);
-    const baseFileExt = path.extname(filename);
-    const sourceMapFileName = baseFileName + baseFileExt;
-
-    // const res = myBabel.transformSync(fileContent, {
-    //   ...options.babelOptions,
-    //   fileName: baseFileName,
-    // });
 
     const { data: tempCode } = await axios
       .get("http://127.0.0.1:4523/m1/2502546-0-default/index")

@@ -67,6 +67,9 @@ function compile(fileNames) {
     const baseFileName = path.basename(filename);
     const newFileName = baseFileName.replace(/(\w+)\.(\w+)/, `$1.test.$2`);
 
+    console.log('generate test for', filename,'new Filename is',newFileName)
+    console.count('generate test')
+
     const testCode = await getResFromAi(fileContent,{
       cookie : options.openaiConfig.key
     });

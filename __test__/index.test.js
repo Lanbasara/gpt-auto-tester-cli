@@ -3,9 +3,9 @@ import React from 'react'
 import { render } from "@testing-library/react";
 import Gallery from "../src/index";
 
-test("renders 3 profiles", () => {
+test("renders scientist gallery", () => {
   const { getAllByAltText } = render(<Gallery />);
-  const profiles = getAllByAltText(/.+/);
-  expect(profiles).toHaveLength(3);
+  const images = getAllByAltText(/.+/);
+  expect(images).toHaveLength(3);
 });
 

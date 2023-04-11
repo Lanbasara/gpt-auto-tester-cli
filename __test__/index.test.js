@@ -1,8 +1,11 @@
 
-```js
-import React from eact\import { render, screen } from 	esting-library/react\import Gallery from \Gallery	est(enders scientist images\ () => {
-  render(<Gallery />);
-  const images = screen.getAllByAltText(/amazing scientist/i);
-  expect(images).toHaveLength(3);
+import React from 'react'
+import { render } from "@testing-library/react";
+import Gallery from "../src/index";
+
+test("renders 3 profiles", () => {
+  const { getAllByAltText } = render(<Gallery />);
+  const profiles = getAllByAltText(/.+/);
+  expect(profiles).toHaveLength(3);
 });
-```
+

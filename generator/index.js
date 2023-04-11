@@ -5,7 +5,9 @@ const glob = require("glob");
 const fsPromises = require("fs").promises;
 const path = require("path");
 const getResFromAi = require("./getTestCodeFromAi");
-const { Configuration, OpenAIApi } = require('openai')
+const { config } = require('dotenv')
+
+config()
 
 commander.option("--out-dir <outDir>", "输出目录");
 commander.option("--watch", "监听文件变动");
@@ -47,11 +49,10 @@ const filenames = glob.sync(commander.args[0]);
 const explorerSync = cosmiconfigSync("my-compile");
 const searchResult = explorerSync.search();
 
-console.log("searchResult is", searchResult);
 
 const options = {
   openaiConfig : {
-    key : searchResult.config.OPENAI_API_KEY
+    key : process.env.OWN_AI_COOKIE
   },
   cliOptions: {
     ...cliOpts,
@@ -60,28 +61,15 @@ const options = {
 };
 
 
-const openai = new OpenAIApi(new Configuration({
-  apiKey : options.openaiConfig.key
-}))
-
-
 function compile(fileNames) {
   fileNames.forEach(async (filename) => {
     const fileContent = await fsPromises.readFile(filename, "utf-8");
     const baseFileName = path.basename(filename);
     const newFileName = baseFileName.replace(/(\w+)\.(\w+)/, `$1.test.$2`);
 
-    // const { data: tempCode } = await axios
-    //   .get("http://127.0.0.1:4523/m1/2502546-0-default/index")
-    //   .then(function (response) {
-    //     return response.data;
-    //   })
-    //   .catch(function (error) {
-    //     // handle error
-    //     console.log(error);
-    //   });
-
-    const testCode = await getResFromAi(fileContent,openai);
+    const testCode = await getResFromAi(fileContent,{
+      cookie : options.openaiConfig.key
+    });
 
     const distFilePath = path.join(options.cliOptions.outDir, newFileName);
 

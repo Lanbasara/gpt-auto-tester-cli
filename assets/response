@@ -1,0 +1,67 @@
+{"type":"success","completion":"\n"}
+{"type":"success","completion":"```"}
+{"type":"success","completion":"js"}
+{"type":"success","completion":"\n"}
+{"type":"success","completion":"import"}
+{"type":"success","completion":" React"}
+{"type":"success","completion":" from"}
+{"type":"success","completion":" \""}
+{"type":"success","completion":"react"}
+{"type":"success","completion":"\";\n"}
+{"type":"success","completion":"import"}
+{"type":"success","completion":" {"}
+{"type":"success","completion":" render"}
+{"type":"success","completion":","}
+{"type":"success","completion":" screen"}
+{"type":"success","completion":" }"}
+{"type":"success","completion":" from"}
+{"type":"success","completion":" \"@"}
+{"type":"success","completion":"testing"}
+{"type":"success","completion":"-library"}
+{"type":"success","completion":"/react"}
+{"type":"success","completion":"\";\n"}
+{"type":"success","completion":"import"}
+{"type":"success","completion":" Gallery"}
+{"type":"success","completion":" from"}
+{"type":"success","completion":" \"./"}
+{"type":"success","completion":"Gallery"}
+{"type":"success","completion":"\";\n\n"}
+{"type":"success","completion":"test"}
+{"type":"success","completion":"(\""}
+{"type":"success","completion":"renders"}
+{"type":"success","completion":" scientist"}
+{"type":"success","completion":" images"}
+{"type":"success","completion":"\","}
+{"type":"success","completion":" ()"}
+{"type":"success","completion":" =>"}
+{"type":"success","completion":" {\n"}
+{"type":"success","completion":" "}
+{"type":"success","completion":" render"}
+{"type":"success","completion":"(<Gallery"}
+{"type":"success","completion":" />);\n"}
+{"type":"success","completion":" "}
+{"type":"success","completion":" const"}
+{"type":"success","completion":" images"}
+{"type":"success","completion":" ="}
+{"type":"success","completion":" screen"}
+{"type":"success","completion":".getAll"}
+{"type":"success","completion":"By"}
+{"type":"success","completion":"Alt"}
+{"type":"success","completion":"Text"}
+{"type":"success","completion":"(/"}
+{"type":"success","completion":"am"}
+{"type":"success","completion":"azing"}
+{"type":"success","completion":" scientist"}
+{"type":"success","completion":"/i"}
+{"type":"success","completion":");\n"}
+{"type":"success","completion":" "}
+{"type":"success","completion":" expect"}
+{"type":"success","completion":"(images"}
+{"type":"success","completion":")."}
+{"type":"success","completion":"toHaveLength"}
+{"type":"success","completion":"("}
+{"type":"success","completion":"3"}
+{"type":"success","completion":");\n"}
+{"type":"success","completion":"});\n"}
+{"type":"success","completion":"``"}
+{"type":"success","completion":"`\n"}

@@ -5,9 +5,11 @@ const glob = require("glob");
 const fsPromises = require("fs").promises;
 const path = require("path");
 const getResFromAi = require("./getTestCodeFromAi");
-const { config } = require('dotenv')
+const WaitForTimer = require("./waitTimer");
+const mkdirsSync = require("../generator/mkdir");
+const { config } = require("dotenv");
 
-config()
+config();
 
 commander.option("--out-dir <outDir>", "输出目录");
 commander.option("--watch", "监听文件变动");
@@ -43,16 +45,16 @@ if (cliOpts.watch) {
 }
 
 // 使用glob模糊匹配所有的文件
-const filenames = glob.sync(commander.args[0]);
+const filenames = glob.sync(path.join(process.cwd(), commander.args[0]));
 
+const root = path.join(process.cwd(), /^(\w+)/.exec(commander.args[0])[1]);
 // 使用cosmiconfigSync读取配置
 const explorerSync = cosmiconfigSync("my-compile");
 const searchResult = explorerSync.search();
 
-
 const options = {
-  openaiConfig : {
-    key : process.env.OWN_AI_COOKIE
+  openaiConfig: {
+    key: process.env.OWN_AI_COOKIE,
   },
   cliOptions: {
     ...cliOpts,
@@ -60,31 +62,46 @@ const options = {
   },
 };
 
-
-function compile(fileNames) {
-  fileNames.forEach(async (filename) => {
+(async function compile(fileNames, root, cwd) {
+  for (filename of fileNames) {
     const fileContent = await fsPromises.readFile(filename, "utf-8");
     const baseFileName = path.basename(filename);
     const newFileName = baseFileName.replace(/(\w+)\.(\w+)/, `$1.test.$2`);
+    let newFileDir = path.join(root, newFileName);
+    const reg = new RegExp(`${root}/(.*?)/${baseFileName}`);
+    const relative = reg.exec(filename);
+    if (relative && relative[1]) {
+      newFileDir = path.join(root, relative[1], newFileName);
+    }
+    const distFilePath = path.join(options.cliOptions.outDir, newFileDir);
+    const targetReg = new RegExp(`${options.cliOptions.outDir}(${cwd})/(.*)`);
+    const targetRelative = targetReg.exec(distFilePath)[2];
+    const targetPath = path.join(
+      options.cliOptions.outDir,
+      "/",
+      targetRelative
+    );
 
-    console.log('generate test for', filename,'new Filename is',newFileName)
-    console.count('generate test')
-
-    const testCode = await getResFromAi(fileContent,{
-      cookie : options.openaiConfig.key
+    const generatedCode = await getResFromAi(fileContent, {
+      cookie: options.openaiConfig.key,
     });
 
-    const distFilePath = path.join(options.cliOptions.outDir, newFileName);
+    await WaitForTimer(30000);
 
+    const fPath = path.dirname(targetPath);
     try {
-      await fsPromises.access(options.cliOptions.outDir);
+      await fsPromises.access(fPath);
     } catch (e) {
-      await fsPromises.mkdir(options.cliOptions.outDir);
+      mkdirsSync(fPath);
     }
-    await fsPromises.writeFile(distFilePath, testCode, {
+
+
+    await fsPromises.writeFile(targetPath, generatedCode, {
       encoding: "utf-8",
     });
-  });
-}
 
-compile(options.cliOptions.filenames);
+    // await fsPromises.writeFile(distFilePath, testCode, {
+    //   encoding: "utf-8",
+    // });
+  }
+})(options.cliOptions.filenames,root,process.cwd())
